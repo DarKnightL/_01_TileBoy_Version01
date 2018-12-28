@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - KillPlane
+  - CheckPoint
+  - MovingPlatform
   layers:
   - Default
   - TransparentFX
@@ -38,6 +41,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: GameObject
+    uniqueID: 3847400963
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Player
+    uniqueID: 4239736349
     locked: 0

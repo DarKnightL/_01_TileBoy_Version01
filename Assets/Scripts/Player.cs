@@ -11,7 +11,9 @@ public class Player : MonoBehaviour
     public Transform groundCheck;
     public float checkRadius;
     public LayerMask whatIsGround;
+    public Vector3 respawnPosition;
 
+    private LevelManager levelManager;
     private Rigidbody2D rigidbody;
     private bool isGrounded;
 
@@ -22,6 +24,8 @@ public class Player : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        respawnPosition = transform.position;
+        levelManager = FindObjectOfType<LevelManager>();
     }
 
 
@@ -64,5 +68,34 @@ public class Player : MonoBehaviour
         anim.SetBool("isGrounded", isGrounded);
     }
 
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "KillPlane")
+        {
+            levelManager.Respawn();
+        }
+        if (other.tag == "CheckPoint")
+        {
+            respawnPosition = other.transform.position;
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "MovingPlatform")
+        {
+            transform.SetParent(other.transform);
+        }
+    }
+
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "MovingPlatform")
+        {
+            transform.SetParent(null);
+        }
+    }
 
 }
