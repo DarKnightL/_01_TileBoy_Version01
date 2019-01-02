@@ -12,10 +12,17 @@ public class Player : MonoBehaviour
     public float checkRadius;
     public LayerMask whatIsGround;
     public Vector3 respawnPosition;
+    public GameObject stompBox;
+
+    public float knockBackForce;
+    public float knockBackLength;
+    public float knockBackCounter;
 
     private LevelManager levelManager;
     private Rigidbody2D rigidbody;
     private bool isGrounded;
+
+
 
     private Animator anim;
 
@@ -38,24 +45,50 @@ public class Player : MonoBehaviour
 
     void InputControl()
     {
-        if (Input.GetAxisRaw("Horizontal") > 0f)
+        if (knockBackCounter <= 0)
         {
-            rigidbody.velocity = new Vector3(moveSpeed, rigidbody.velocity.y, 0);
-            transform.localScale = new Vector3(1f, 1f, 1f);
+            if (Input.GetAxisRaw("Horizontal") > 0f)
+            {
+                rigidbody.velocity = new Vector3(moveSpeed, rigidbody.velocity.y, 0);
+                transform.localScale = new Vector3(1f, 1f, 1f);
+            }
+            else if (Input.GetAxisRaw("Horizontal") < 0f)
+            {
+                rigidbody.velocity = new Vector3(-moveSpeed, rigidbody.velocity.y, 0);
+                transform.localScale = new Vector3(-1f, 1f, 1f);
+            }
+            else
+            {
+                rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, 0);
+            }
+
+            if (Input.GetButtonDown("Jump") && isGrounded)
+            {
+                rigidbody.velocity = new Vector3(rigidbody.velocity.x, jumpSpeed, 0);
+            }
         }
-        else if (Input.GetAxisRaw("Horizontal") < 0f)
+        if (knockBackCounter > 0)
         {
-            rigidbody.velocity = new Vector3(-moveSpeed, rigidbody.velocity.y, 0);
-            transform.localScale = new Vector3(-1f, 1f, 1f);
+
+            knockBackCounter -= Time.deltaTime;
+            if (rigidbody.transform.localScale.x > 0)
+            {
+                rigidbody.velocity = new Vector3(-knockBackForce, knockBackForce, 0f);
+            }
+            else
+            {
+                rigidbody.velocity = new Vector3(knockBackForce, knockBackForce, 0f);
+            }
+        }
+
+
+        if (rigidbody.velocity.y >= 0)
+        {
+            stompBox.SetActive(false);
         }
         else
         {
-            rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, 0);
-        }
-
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            rigidbody.velocity = new Vector3(rigidbody.velocity.x, jumpSpeed, 0);
+            stompBox.SetActive(true);
         }
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
@@ -96,6 +129,12 @@ public class Player : MonoBehaviour
         {
             transform.SetParent(null);
         }
+    }
+
+
+    public void KnockBack()
+    {
+        knockBackCounter = knockBackLength;
     }
 
 }

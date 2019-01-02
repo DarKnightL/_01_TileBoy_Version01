@@ -20,11 +20,15 @@ public class LevelManager : MonoBehaviour
     private Player player;
     private bool respawning;
 
+    private ResetOnRespawn[] objectsToReset;
+
     void Start()
     {
         player = FindObjectOfType<Player>();
         scoreText.text = "Score:" + coinCount;
         healthCount = maxHealth;
+
+        objectsToReset = FindObjectsOfType<ResetOnRespawn>();
     }
 
 
@@ -47,9 +51,16 @@ public class LevelManager : MonoBehaviour
         healthCount = maxHealth;
         respawning = false;
         UpdateHeartMeter(); //Initialize the HP
-        //TODO coinCounts return to zero;
+        coinCount = 0;//FINISH coinCounts return to zero;
+        scoreText.text = "Score:" + coinCount;
         player.transform.position = player.respawnPosition;
         player.gameObject.SetActive(true);
+
+        for (int i = 0; i < objectsToReset.Length; i++)
+        {
+            objectsToReset[i].ResetStatus();
+            objectsToReset[i].gameObject.SetActive(true);
+        }
     }
 
 

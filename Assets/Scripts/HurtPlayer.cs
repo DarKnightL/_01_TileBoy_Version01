@@ -5,10 +5,13 @@ using UnityEngine;
 public class HurtPlayer : MonoBehaviour {
 
     private LevelManager levelManager;
+    private Player player;
     public int damageToGive;
+    
 
 	void Start () {
         levelManager = FindObjectOfType<LevelManager>();
+        player = FindObjectOfType<Player>();
 	}
 	
 	
@@ -21,6 +24,7 @@ public class HurtPlayer : MonoBehaviour {
     {
         if (other.tag=="Player")
         {
+            player.KnockBack();
             levelManager.HurtPlayer(damageToGive);
         }
     }

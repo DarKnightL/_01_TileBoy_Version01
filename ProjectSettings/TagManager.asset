@@ -7,6 +7,7 @@ TagManager:
   - KillPlane
   - CheckPoint
   - MovingPlatform
+  - Enemy
   layers:
   - Default
   - TransparentFX

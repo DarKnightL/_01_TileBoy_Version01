@@ -22,7 +22,7 @@ public class CoinController : MonoBehaviour {
         if (other.tag=="Player")
         {
             levelManager.AddCoin(coinValue);
-            Destroy(gameObject);
+            transform.gameObject.SetActive(false);
         }
     }
 }
