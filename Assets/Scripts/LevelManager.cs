@@ -15,6 +15,14 @@ public class LevelManager : MonoBehaviour
     public int maxHealth = 6;
     public int healthCount;
 
+    public bool invisible;
+
+    public Text lifeText;
+    public int maxLives;
+    private int currentLives;
+
+    public GameObject gameOverScreen;
+
 
     private int coinCount;
     private Player player;
@@ -24,6 +32,9 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
+        currentLives = maxLives;
+        lifeText.text = "X " + currentLives;
+
         player = FindObjectOfType<Player>();
         scoreText.text = "Score:" + coinCount;
         healthCount = maxHealth;
@@ -66,7 +77,17 @@ public class LevelManager : MonoBehaviour
 
     public void Respawn()
     {
-        StartCoroutine("RespawnCo");
+        currentLives -= 1;
+        lifeText.text = "X " + currentLives;
+        if (currentLives > 0)
+        {
+            StartCoroutine("RespawnCo");
+        }
+        else
+        {
+            player.gameObject.SetActive(false);
+            gameOverScreen.gameObject.SetActive(true);
+        }
     }
 
 
@@ -79,8 +100,13 @@ public class LevelManager : MonoBehaviour
 
     public void HurtPlayer(int damageToTake)
     {
-        healthCount -= damageToTake;
-        UpdateHeartMeter();
+        if (!invisible)
+        {
+            healthCount -= damageToTake;
+            player.KnockBack();
+            UpdateHeartMeter();
+        }
+
     }
 
 
@@ -138,5 +164,10 @@ public class LevelManager : MonoBehaviour
                 return;
         }
 
+    }
+
+    public void AddLife(int livesToAdd) {
+        currentLives += livesToAdd;
+        lifeText.text = "X " + currentLives;
     }
 }

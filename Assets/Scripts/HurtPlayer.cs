@@ -2,29 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HurtPlayer : MonoBehaviour {
+public class HurtPlayer : MonoBehaviour
+{
 
     private LevelManager levelManager;
     private Player player;
     public int damageToGive;
-    
 
-	void Start () {
+
+    void Start()
+    {
         levelManager = FindObjectOfType<LevelManager>();
         player = FindObjectOfType<Player>();
-	}
-	
-	
-	void Update () {
-		
-	}
+    }
+
+
+    void Update()
+    {
+
+    }
 
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag=="Player")
+        if (other.tag == "Player")
         {
-            player.KnockBack();
             levelManager.HurtPlayer(damageToGive);
         }
     }

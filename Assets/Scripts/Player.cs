@@ -18,6 +18,9 @@ public class Player : MonoBehaviour
     public float knockBackLength;
     public float knockBackCounter;
 
+    public float invisibleLength;
+    public float invisibleCounter;
+
     private LevelManager levelManager;
     private Rigidbody2D rigidbody;
     private bool isGrounded;
@@ -47,6 +50,7 @@ public class Player : MonoBehaviour
     {
         if (knockBackCounter <= 0)
         {
+            levelManager.invisible = false;
             if (Input.GetAxisRaw("Horizontal") > 0f)
             {
                 rigidbody.velocity = new Vector3(moveSpeed, rigidbody.velocity.y, 0);
@@ -79,6 +83,15 @@ public class Player : MonoBehaviour
             {
                 rigidbody.velocity = new Vector3(knockBackForce, knockBackForce, 0f);
             }
+        }
+
+        if (invisibleCounter>0)
+        {
+            invisibleCounter -= Time.deltaTime;
+        }
+        else if (invisibleCounter<=0)
+        {
+            levelManager.invisible = false;
         }
 
 
@@ -134,6 +147,8 @@ public class Player : MonoBehaviour
 
     public void KnockBack()
     {
+        invisibleCounter = invisibleLength;
+        levelManager.invisible = true;
         knockBackCounter = knockBackLength;
     }
 
