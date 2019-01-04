@@ -20,6 +20,7 @@ public class LevelManager : MonoBehaviour
     public Text lifeText;
     public int maxLives;
     private int currentLives;
+    private int coinBonusLivesCount;
 
     public GameObject gameOverScreen;
 
@@ -27,6 +28,8 @@ public class LevelManager : MonoBehaviour
     private int coinCount;
     private Player player;
     private bool respawning;
+
+    public int bonusLifeThreshold;
 
     private ResetOnRespawn[] objectsToReset;
 
@@ -50,6 +53,12 @@ public class LevelManager : MonoBehaviour
             Respawn();
             respawning = true;
         }
+        if (coinBonusLivesCount>= bonusLifeThreshold)
+        {
+            currentLives += 1;
+            lifeText.text = "X " + currentLives;
+            coinBonusLivesCount -= bonusLifeThreshold;
+        }
     }
 
 
@@ -63,6 +72,7 @@ public class LevelManager : MonoBehaviour
         respawning = false;
         UpdateHeartMeter(); //Initialize the HP
         coinCount = 0;//FINISH coinCounts return to zero;
+        coinBonusLivesCount = 0;
         scoreText.text = "Score:" + coinCount;
         player.transform.position = player.respawnPosition;
         player.gameObject.SetActive(true);
@@ -94,6 +104,7 @@ public class LevelManager : MonoBehaviour
     public void AddCoin(int CoinToAdd)
     {
         coinCount += CoinToAdd;
+        coinBonusLivesCount += CoinToAdd;
         scoreText.text = "Score:" + coinCount;
     }
 
@@ -169,5 +180,15 @@ public class LevelManager : MonoBehaviour
     public void AddLife(int livesToAdd) {
         currentLives += livesToAdd;
         lifeText.text = "X " + currentLives;
+    }
+
+
+    public void AddHealth(int healthToGive) {
+        healthCount += healthToGive;
+        if (healthCount>maxHealth)
+        {
+            healthCount = maxHealth;
+        }
+        UpdateHeartMeter();
     }
 }
