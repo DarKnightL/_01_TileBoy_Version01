@@ -5,7 +5,9 @@ using UnityEngine;
 public class CoinController : MonoBehaviour {
 
     private LevelManager levelManager;
+
     public int coinValue=100;
+  
 	
 	void Start () {
         levelManager = FindObjectOfType<LevelManager>();

@@ -15,7 +15,7 @@ public class LevelManager : MonoBehaviour
     public int maxHealth = 6;
     public int healthCount;
 
-    public bool invisible;
+    public bool invincible;
 
     public Text lifeText;
     public int maxLives;
@@ -23,7 +23,9 @@ public class LevelManager : MonoBehaviour
     private int coinBonusLivesCount;
 
     public GameObject gameOverScreen;
-
+    public AudioSource coinSound;
+    public AudioSource gameOverSound;
+    public AudioSource levelMusicSound;
 
     private int coinCount;
     private Player player;
@@ -95,6 +97,8 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
+            levelMusicSound.Stop();
+            gameOverSound.Play();
             player.gameObject.SetActive(false);
             gameOverScreen.gameObject.SetActive(true);
         }
@@ -103,6 +107,7 @@ public class LevelManager : MonoBehaviour
 
     public void AddCoin(int CoinToAdd)
     {
+        coinSound.Play();
         coinCount += CoinToAdd;
         coinBonusLivesCount += CoinToAdd;
         scoreText.text = "Score:" + coinCount;
@@ -111,10 +116,11 @@ public class LevelManager : MonoBehaviour
 
     public void HurtPlayer(int damageToTake)
     {
-        if (!invisible)
+        if (!invincible)
         {
             healthCount -= damageToTake;
             player.KnockBack();
+            player.hitHurtSound.Play();
             UpdateHeartMeter();
         }
 
@@ -179,12 +185,14 @@ public class LevelManager : MonoBehaviour
 
     public void AddLife(int livesToAdd) {
         currentLives += livesToAdd;
+        coinSound.Play();
         lifeText.text = "X " + currentLives;
     }
 
 
     public void AddHealth(int healthToGive) {
         healthCount += healthToGive;
+        coinSound.Play();
         if (healthCount>maxHealth)
         {
             healthCount = maxHealth;

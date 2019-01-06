@@ -9,27 +9,32 @@ public class CameraController : MonoBehaviour
     public float followAhead;
     public float smoothing;
 
+    public bool followTarget;
+
     private Vector3 targetPosition;
 
 
     void Start()
     {
-
+        followTarget = true;
     }
 
 
     void Update()
     {
-        targetPosition = new Vector3(target.transform.position.x, transform.position.y, transform.position.z);
-        if (target.transform.localScale.x > 0f)
+        if (followTarget)
         {
-            targetPosition = new Vector3(target.transform.position.x + followAhead, transform.position.y, transform.position.z);
+            targetPosition = new Vector3(target.transform.position.x, transform.position.y, transform.position.z);
+            if (target.transform.localScale.x > 0f)
+            {
+                targetPosition = new Vector3(target.transform.position.x + followAhead, transform.position.y, transform.position.z);
+            }
+            else
+            {
+                targetPosition = new Vector3(target.transform.position.x - followAhead, transform.position.y, transform.position.z);
+            }
+            transform.position = Vector3.Lerp(transform.position, targetPosition, smoothing * Time.deltaTime);
         }
-        else
-        {
-            targetPosition = new Vector3(target.transform.position.x - followAhead, transform.position.y, transform.position.z);
-        }
-        transform.position = Vector3.Lerp(transform.position, targetPosition, smoothing * Time.deltaTime);
     }
 
 
