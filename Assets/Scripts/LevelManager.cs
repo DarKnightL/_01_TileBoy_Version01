@@ -19,7 +19,7 @@ public class LevelManager : MonoBehaviour
 
     public Text lifeText;
     public int maxLives;
-    private int currentLives;
+    public int currentLives;
     private int coinBonusLivesCount;
 
     public GameObject gameOverScreen;
@@ -27,7 +27,7 @@ public class LevelManager : MonoBehaviour
     public AudioSource gameOverSound;
     public AudioSource levelMusicSound;
 
-    private int coinCount;
+    public int coinCount;
     private Player player;
     private bool respawning;
 
@@ -37,14 +37,25 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        currentLives = maxLives;
-        lifeText.text = "X " + currentLives;
-
         player = FindObjectOfType<Player>();
         scoreText.text = "Score:" + coinCount;
         healthCount = maxHealth;
 
-        objectsToReset = FindObjectsOfType<ResetOnRespawn>();
+        if (PlayerPrefs.HasKey("coinCount"))
+        {
+            coinCount = PlayerPrefs.GetInt("coinCount");
+            scoreText.text = "Score:" + coinCount;
+        }
+
+        if (PlayerPrefs.HasKey("playerLives"))
+        {
+            currentLives = PlayerPrefs.GetInt("playerLives");
+            lifeText.text = "X " + currentLives;
+        }
+        else
+        {
+            currentLives=maxLives;
+        }
     }
 
 

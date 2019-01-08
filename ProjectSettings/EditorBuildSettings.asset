@@ -11,7 +11,22 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameScene_02.unity
     guid: 0c18c4da320c640f88a750e45990f1b3
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/GameScene_03.unity
-    guid: e2f915163b7e24676b27c8f94f22db47
+    path: Assets/Scenes/GameScene_Selected.unity
+    guid: b5e4ff06594c89a458360105a1ade250
+  - enabled: 1
+    path: Assets/EasyMainMenu/Scenes/Main Menu Old/LoadingScreen.unity
+    guid: 6540e3b3fcf225c4a89bee2bcc8d1682
+  - enabled: 1
+    path: Assets/EasyMainMenu/Scenes/Main Menu Old/LoginScreen.unity
+    guid: 4113930fb952b0141b3b20e9b61e1a3f
+  - enabled: 1
+    path: Assets/EasyMainMenu/Scenes/Main Menu Old/MainMenu.unity
+    guid: c09f4b0b2a9226946aa44a3dd8ffdfa6
+  - enabled: 1
+    path: Assets/EasyMainMenu/Scenes/Main Menu Old/Maze.unity
+    guid: d193b2b90e358f04685393c66d4ace54
   m_configObjects: {}
