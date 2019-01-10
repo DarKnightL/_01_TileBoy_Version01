@@ -54,7 +54,7 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            currentLives=maxLives;
+            currentLives = maxLives;
         }
     }
 
@@ -66,7 +66,7 @@ public class LevelManager : MonoBehaviour
             Respawn();
             respawning = true;
         }
-        if (coinBonusLivesCount>= bonusLifeThreshold)
+        if (coinBonusLivesCount >= bonusLifeThreshold)
         {
             currentLives += 1;
             lifeText.text = "X " + currentLives;
@@ -79,6 +79,9 @@ public class LevelManager : MonoBehaviour
     {
         player.gameObject.SetActive(false);
         Instantiate(deathExplosion, player.transform.position, Quaternion.identity);
+
+        
+
         yield return new WaitForSeconds(waitToRespawn);
 
         healthCount = maxHealth;
@@ -90,11 +93,16 @@ public class LevelManager : MonoBehaviour
         player.transform.position = player.respawnPosition;
         player.gameObject.SetActive(true);
 
-        for (int i = 0; i < objectsToReset.Length; i++)
+        if (GetComponent<ResetOnRespawn>() != null)
         {
-            objectsToReset[i].ResetStatus();
-            objectsToReset[i].gameObject.SetActive(true);
+            for (int i = 0; i < objectsToReset.Length; i++)
+            {
+                objectsToReset[i].gameObject.SetActive(true);
+                objectsToReset[i].ResetStatus();
+            }
         }
+        
+
     }
 
 
@@ -194,17 +202,19 @@ public class LevelManager : MonoBehaviour
 
     }
 
-    public void AddLife(int livesToAdd) {
+    public void AddLife(int livesToAdd)
+    {
         currentLives += livesToAdd;
         coinSound.Play();
         lifeText.text = "X " + currentLives;
     }
 
 
-    public void AddHealth(int healthToGive) {
+    public void AddHealth(int healthToGive)
+    {
         healthCount += healthToGive;
         coinSound.Play();
-        if (healthCount>maxHealth)
+        if (healthCount > maxHealth)
         {
             healthCount = maxHealth;
         }

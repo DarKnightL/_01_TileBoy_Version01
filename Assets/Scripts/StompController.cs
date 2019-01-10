@@ -31,5 +31,10 @@ public class StompController : MonoBehaviour
             Instantiate(deathExplosion, other.transform.position, Quaternion.identity);
             rigidbody.velocity = new Vector3(rigidbody.velocity.x, bounceForce, 0f);
         }
+        if (other.tag=="Boss")
+        {
+            rigidbody.velocity = new Vector3(rigidbody.velocity.x, bounceForce, 0f);
+            other.transform.parent.GetComponent<BossController>().takeDamage = true;
+        }
     }
 }
