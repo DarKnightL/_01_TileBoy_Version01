@@ -33,6 +33,8 @@ public class LevelManager : MonoBehaviour
 
     public int bonusLifeThreshold;
 
+    public bool respawnCoActive;
+
     private ResetOnRespawn[] objectsToReset;
 
     void Start()
@@ -61,10 +63,10 @@ public class LevelManager : MonoBehaviour
 
     void Update()
     {
-        if (healthCount <= 0 && !respawning)
+        if (healthCount <= 0 )
         {
             Respawn();
-            respawning = true;
+            
         }
         if (coinBonusLivesCount >= bonusLifeThreshold)
         {
@@ -77,13 +79,17 @@ public class LevelManager : MonoBehaviour
 
     public IEnumerator RespawnCo()
     {
+        
         player.gameObject.SetActive(false);
         Instantiate(deathExplosion, player.transform.position, Quaternion.identity);
-
-        
+        respawnCoActive = true;
+ 
 
         yield return new WaitForSeconds(waitToRespawn);
 
+
+        respawnCoActive = false;
+   
         healthCount = maxHealth;
         respawning = false;
         UpdateHeartMeter(); //Initialize the HP
@@ -108,19 +114,25 @@ public class LevelManager : MonoBehaviour
 
     public void Respawn()
     {
-        currentLives -= 1;
-        lifeText.text = "X " + currentLives;
-        if (currentLives > 0)
+        if (!respawning)
         {
-            StartCoroutine("RespawnCo");
+            currentLives -= 1;
+            lifeText.text = "X " + currentLives;
+            if (currentLives > 0)
+            {
+                respawning = true;
+                StartCoroutine("RespawnCo");
+            }
+            else
+            {
+                levelMusicSound.Stop();
+                gameOverSound.Play();
+                player.gameObject.SetActive(false);
+                gameOverScreen.gameObject.SetActive(true);
+            }
         }
-        else
-        {
-            levelMusicSound.Stop();
-            gameOverSound.Play();
-            player.gameObject.SetActive(false);
-            gameOverScreen.gameObject.SetActive(true);
-        }
+        
+       
     }
 
 

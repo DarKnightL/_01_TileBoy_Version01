@@ -7,6 +7,7 @@ public class BossController : MonoBehaviour {
     public bool bossActive;
 
     public float timeBetweenDrop;
+    public float timeBetweenDropInitial;
     public float dropCount;
     public float waitForPlatform;
     public float platformCount;
@@ -30,25 +31,63 @@ public class BossController : MonoBehaviour {
     public int currentHealth;
 
     private CameraController camera;
+    private LevelManager levelManager;
+
+    public bool waitForRespawn;
+
+    
 
 
     void Start () {
         bossRight = true;
         dropCount = timeBetweenDrop;
+        timeBetweenDropInitial = timeBetweenDrop;
         platformCount = waitForPlatform;
         boss.transform.position = rightPoint.position;
         currentHealth = bossHealth;
         camera = FindObjectOfType<CameraController>();
+        levelManager = FindObjectOfType<LevelManager>();
 	}
 	
 	
 	void Update () {
+        if (levelManager.respawnCoActive)
+        {
+            boss.SetActive(false);
+            waitForRespawn = true;
+        }
+        if (waitForRespawn&&!levelManager.respawnCoActive)
+        {
+            
+            waitForRespawn = false;
+
+            //Platform
+            leftPlatform.SetActive(false);
+            rightPlatform.SetActive(false);
+            platformCount = waitForPlatform;
+
+            //Drop
+            dropCount = timeBetweenDropInitial;
+
+            //Boss
+            boss.SetActive(false);
+            bossActive = false;
+            boss.transform.position = rightPoint.position;
+            bossRight = true;
+            currentHealth = bossHealth;
+
+            //Camera
+            camera.followTarget = true;
+            
+        }
+
+
         if (bossActive)
         {
             camera.followTarget = false;
             camera.transform.position = Vector3.Lerp(camera.transform.position, new Vector3(transform.position.x, camera.transform.position.y, camera.transform.position.z), camera.smoothing * Time.deltaTime);
 
-
+            
             if (bossRight)
             {
                 if (platformCount>0)
@@ -96,7 +135,7 @@ public class BossController : MonoBehaviour {
                     levelExit.SetActive(true);
                     winningPlatform.SetActive(true);
                     gameObject.SetActive(false); //make the boss invisible
-                    camera.followTarget = false; //make the camera follow the player
+                    camera.followTarget = true ; //make the camera follow the player
                 }
             }
 
