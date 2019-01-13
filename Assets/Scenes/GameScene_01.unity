@@ -482,6 +482,11 @@ Prefab:
       propertyPath: m_Name
       value: LevelExit
       objectReference: {fileID: 0}
+    - target: {fileID: 114930816057221354, guid: 010bf2c11120d8141acf4b8bb47faaeb,
+        type: 2}
+      propertyPath: levelToUnlock
+      value: GameScene_02
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 010bf2c11120d8141acf4b8bb47faaeb, type: 2}
   m_IsPrefabAsset: 0
