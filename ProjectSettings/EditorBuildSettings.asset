@@ -9,12 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/GameScene_Menu.unity
     guid: 34485b27ec34c7f47bcb550d64c75df6
   - enabled: 1
+    path: Assets/Scenes/GameScene_Selected.unity
+    guid: b5e4ff06594c89a458360105a1ade250
+  - enabled: 1
     path: Assets/Scenes/GameScene_01_Remake.unity
     guid: 294fec6058cf91c4182f69fe52f9507c
   - enabled: 1
     path: Assets/Scenes/GameScene_02.unity
     guid: 94f12d66b6b9afb4f80b10b3dfb463dc
-  - enabled: 1
-    path: Assets/Scenes/GameScene_Selected.unity
-    guid: b5e4ff06594c89a458360105a1ade250
   m_configObjects: {}
